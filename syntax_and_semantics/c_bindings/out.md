@@ -1,6 +1,6 @@
 # out
 
-Consider the [waitpid](http://www.gnu.org/software/libc/manual/html_node/Process-Completion.html) function:
+考虑 [waitpid](http://www.gnu.org/software/libc/manual/html_node/Process-Completion.html) 这个函数：
 
 ```crystal
 lib C
@@ -8,14 +8,13 @@ lib C
 end
 ```
 
-The documentation of the function says:
+这个函数的文档说：
 
 ```
-The status information from the child process is stored in the object
-that status_ptr points to, unless status_ptr is a null pointer.
+子程序的状态信息会储存到status_ptr指向的对象，除非status_ptr是空指针。
 ```
 
-We can use this function like this:
+我们可以这样使用它：
 
 ```crystal
 pid = ...
@@ -25,9 +24,9 @@ status_ptr = uninitialized Int32
 C.waitpid(pid, pointerof(status_ptr), options)
 ```
 
-In this way we pass a pointer of `status_ptr` to the function for it to fill its value.
+这样我们给 `status_ptr`传递了一个指针，让他填充值。
 
-There's a simpler way to write the above by using an `out` parameter:
+不过有一种简便的方法，那就是 `out`参数：
 
 ```crystal
 pid = ...
@@ -36,6 +35,6 @@ options = ...
 C.waitpid(pid, out status_ptr, options)
 ```
 
-The compiler will automatically declare a `status_ptr` variable of type `Int32`, because the argument is an `Int32*`.
+编译器会自动声明一个`Int32`类型的变量 `status_ptr`，因为参数类型是 `Int32*`。
 
-This will work for any type, as long as the argument is a pointer of that type (and, of course, as long as the function does fill the value the pointer is pointing to).
+这对任何类型都适用，只要参数是指针类型。 (当然这个函数要真的填充这个变量)。

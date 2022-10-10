@@ -1,6 +1,6 @@
 # to_unsafe
 
-If a type defines a `to_unsafe` method, when passing it to C the value returned by this method will be passed. For example:
+如果类型定义了 `to_unsafe`方法，当传递给 C 函数时，这个方法会被自动调用。例如：
 
 ```crystal
 lib C
@@ -17,14 +17,13 @@ class IntWrapper
 end
 
 wrapper = IntWrapper.new(1)
-C.exit(wrapper) # wrapper is not an Int32, but its to_unsafe
-                # method is, so wrapper.to_unsafe
-                # is passed instead
+C.exit(wrapper) # 不是 Int32, 但是它的 to_unsafe 方法返回值是
+                # 所以 wrapper.to_unsafe会被传进去
 ```
 
-This is very useful for defining wrappers of C types without having to explicitly transform them to their wrapped values.
+这用于定义C类型的包装类，而对C使用它们的时候又不用手动拆包。
 
-For example, the `String` class implements `to_unsafe` to return `UInt8*`:
+例如 `String` 类实现了 `to_unsafe` 方法，返回 `UInt8*`：
 
 ```crystal
 lib C
