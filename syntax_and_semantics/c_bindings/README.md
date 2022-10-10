@@ -1,5 +1,5 @@
-# C bindings
+# C语言绑定
 
-Crystal allows you to bind to existing C libraries without writing a single line in C.
+Crystal 允许你绑定C语言库中的函数,而不用写一行C代码。
 
-Additionally, it provides some conveniences like `out` and `to_unsafe` so writing bindings is as painless as possible.
+另外，她提供了 `out`和 `to_unsafe`之类的简便写法，以尽可能减少绑定的痛苦。

@@ -1,21 +1,21 @@
 # fun
 
-A `fun` declaration inside a `lib` binds to a C function.
+在 `lib` 内部，用 `fun`声明一个 C 函数。
 
 ```crystal
 lib C
-  # In C: double cos(double x)
+  # 在 C 中: double cos(double x)
   fun cos(value : Float64) : Float64
 end
 ```
 
-Once you bind it, the function is available inside the `C` type as if it was a class method:
+只要绑定完成，这个函数就能像`C`类型的一个类方法一样被调用：
 
 ```crystal
 C.cos(1.5) #=> 0.0707372
 ```
 
-You can omit the parentheses if the function doesn't have arguments (and omit them in the call as well):
+如果函数没有参数，你可以省略括号 (当然在调用中也可以省略)：
 
 ```crystal
 lib C
@@ -25,7 +25,7 @@ end
 C.getch
 ```
 
-If the return type is void you can omit it:
+如果返回类型是空的，你可以省略它：
 
 ```crystal
 lib C
@@ -35,7 +35,7 @@ end
 C.srand(1_u32)
 ```
 
-You can bind to variadic functions:
+你可以绑定到可变参数数目的函数：
 
 ```crystal
 lib X
@@ -45,13 +45,13 @@ end
 X.variadic(1, 2, 3, 4)
 ```
 
-Note that there are no implicit conversions (except `to_unsafe`, which is explained later) when invoking a C function: you must pass the exact type that is expected. For integers and floats you can use the various `to_...` methods.
+注意，调用C函数时参数不会进行任何的隐式转换 (除了 `to_unsafe`，下面将会解释)：你必须准确地传递所需类型。对于整数和浮点数，你可以使用 `to_...`系列方法。
 
-## Function names
+## 函数名
 
-Function names in a `lib` definition can start with an upper case letter. That's different from methods and function definitions outside a `lib`, which must start with a lower case letter.
+不同于 `lib`外的方法，`lib` 内的函数名可以以大写字母开头(相对地，`lib`外的方法只能以小写字母开头)。
 
-Function names in Crystal can be different from the C name. The following example shows how to bind the C function name `SDL_Init` as `LibSDL.init` in Crystal.
+Crystal 里的函数名可以与 C 中的函数名不同。下面的例子展示了如何把 C 函数 `SDL_Init` 绑定到 Crystal 的`LibSDL.init`。
 
 ```crystal
 lib LibSDL
@@ -59,7 +59,7 @@ lib LibSDL
 end
 ```
 
-The C name can be put in quotes to be able to write a name that is not a valid identifier:
+如果 C 函数名不是有效的标识符，他们应该用引号括起来：
 
 ```crystal
 lib LLVMIntrinsics
@@ -67,23 +67,23 @@ lib LLVMIntrinsics
 end
 ```
 
-This can also be used to give shorter, nicer names to C functions, as these tend to be long and are usually prefixed with the library name.
+这也用于给C函数起一个更短，更好听的名字，因为它们往往很长，前面还带有库的名称。
 
-## Types in C Bindings
+##  C 绑定中的类型
 
-The valid types to use in C bindings are:
-* Primitive types (`Int8`, ..., `Int64`, `UInt8`, ..., `UInt64`, `Float32`, `Float64`)
-* Pointer types (`Pointer(Int32)`, which can also be written as `Int32*`)
-* Static arrays (`StaticArray(Int32, 8)`, which can also be written as `Int32[8]`)
-* Function types (`Function(Int32, Int32)`, which can also be written as `Int32 -> Int32`)
-* Other `struct`, `union`, `enum`, `type` or `alias` declared previously.
-* `Void`: the absence of a return value.
-* `NoReturn`: similar to `Void`, but the compiler understands that no code can be executed after that invocation.
-* Crystal structs marked with the `@[Extern]` attribute
+C 绑定中可以用的类型有：
+* 原始类型 (`Int8`, ..., `Int64`, `UInt8`, ..., `UInt64`, `Float32`, `Float64`)
+* 指针类型 (`Pointer(Int32)`, 也可以写成 `Int32*`)
+* 静态数组 (`StaticArray(Int32, 8)`, 也可以写成 `Int32[8]`)
+* 函数类型 (`Function(Int32, Int32)`, 也可以写成 `Int32 -> Int32`)
+* 其他先前已经定义的 `struct`, `union`, `enum`, `type` 或 `alias` 。
+* `Void`: 表示没有返回值。
+* `NoReturn`: 类似于 `Void`，但编译器知道它调用后绝不返回。
+* 标有 `@[Extern]` 属性的Crystal结构体
 
-Refer to the [type grammar](../type_grammar.html) for the notation used in fun types.
+fun 中类型的记名参见 [类型语法](../type_grammar.html)。
 
-The standard library defines the [LibC](https://github.com/crystal-lang/crystal/blob/master/src/lib_c.cr) lib with aliases for common C types, like `int`, `short`, `size_t`. Use them in bindings like this:
+标准库定义了 [LibC](https://github.com/crystal-lang/crystal/blob/master/src/lib_c.cr) 库，内含C中常见的类型，如 `int`, `short`, `size_t`。 它们可以这样使用：
 
 ```crystal
 lib MyLib
@@ -91,4 +91,4 @@ lib MyLib
 end
 ```
 
-**Note:** The C `char` type is `UInt8` in Crystal, so a `char*` or a `const char*` is `UInt8*`. The `Char` type in Crystal is a unicode codepoint so it is represented by four bytes, making it similar to an `Int32`, not to an `UInt8`. There's also the alias `LibC::Char` if in doubt.
+**注意:** C 中的 `char` 在 Crystal 中是`UInt8` , 因此 `char*` 或 `const char*` 应当是 `UInt8*`。 Crystal中的 `Char`类型表示 unicode codepoint ，所以它占四个字节，类似于 `Int32`，而不是 `UInt8`。如果搞不明白，直接用别名 `LibC::Char`就行了。
