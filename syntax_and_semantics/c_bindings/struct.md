@@ -1,10 +1,10 @@
 # struct
 
-A `struct` declaration inside a `lib` declares a C struct.
+在`lib`中用`struct` 声明一个C结构体。
 
 ```crystal
 lib C
-  # In C:
+  # C 中:
   #
   #  struct TimeZone {
   #    int minutes_west;
@@ -17,7 +17,7 @@ lib C
 end
 ```
 
-You can also specify many fields of the same type:
+你也能声明多个同类型的成员变量：
 
 ```crystal
 lib C
@@ -27,7 +27,7 @@ lib C
 end
 ```
 
-Recursive structs work just like you expect them to:
+递归的结构体如你所想的那样起效：
 
 ```crystal
 lib C
@@ -41,24 +41,24 @@ lib C
 end
 ```
 
-To create an instance of a struct use `new`:
+用 `new`创建结构体实例：
 
 ```crystal
 tz = C::TimeZone.new
 ```
 
-This allocates the struct on the stack.
+这会在栈上分配结构体。
 
-A C struct starts with all its fields set to "zero": integers and floats start at zero, pointers start with an address of zero, etc.
+C 结构体刚声明是，所有的成员都会被设为 "零"： 整数和浮点数是零，指针指向地址位置 0，诸如此类。
 
-To avoid this initialization you can use `uninitialized`:
+你可以用 `uninitialized`避免这样的初始化：
 
 ```crystal
 tz = uninitialized C::TimeZone
-tz.minutes_west #=> some garbage value
+tz.minutes_west #=> 无意义值
 ```
 
-You can set and get its properties:
+它的成员都可以被读写：
 
 ```crystal
 tz = C::TimeZone.new
@@ -66,9 +66,9 @@ tz.minutes_west = 1
 tz.minutes_west #=> 1
 ```
 
-If the assigned value is not exactly the same as the property's type, [to_unsafe](to_unsafe.html) will be tried.
+如果被赋予的值不正好是成员的值，它会尝试匹配 [to_unsafe](to_unsafe.html)方法。
 
-You can also initialize some fields with a syntax similar to [named arguments](../default_and_named_arguments.html):
+你也可以用类似于[命名参数](../default_and_named_arguments.html)的语法初始化结构体的某些域：
 
 ```crystal
 tz = C::TimeZone.new minutes_west: 1, dst_time: 2
@@ -76,7 +76,7 @@ tz.minutes_west #=> 1
 tz.dst_time     #=> 2
 ```
 
-A C struct is passed by value (as a copy) to functions and methods, and also passed by value when it is returned from a method:
+C 结构体按值(复制地)传入函数的方法，返回时也总是按值返回：
 
 ```crystal
 def change_it(tz)
@@ -88,4 +88,4 @@ change_it tz
 tz.minutes_west #=> 0
 ```
 
-Refer to the [type grammar](../type_grammar.html) for the notation used in struct field types.
+成员类型的声明参见 [类型语法](../type_grammar.html)。
