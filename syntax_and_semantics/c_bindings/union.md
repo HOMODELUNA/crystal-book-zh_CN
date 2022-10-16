@@ -1,10 +1,9 @@
 # union
-
-A `union` declaration inside a `lib` declares a C union:
+在 `lib` 中用`union`声明C的联合体：
 
 ```crystal
 lib U
-  # In C:
+  # C中:
   #
   #  union IntOrFloat {
   #    int some_int;
@@ -17,24 +16,24 @@ lib U
 end
 ```
 
-To create an instance of a union use `new`:
+用 `new`创建联合体的实例:
 
 ```crystal
 value = U::IntOrFloat.new
 ```
 
-This allocates the union on the stack.
+这会在栈上分配联合体。
 
-A C union starts with all its fields set to "zero": integers and floats start at zero, pointers start with an address of zero, etc.
+C联合体初始化时所有的域都是 "零": 整数和浮点数是零，指针指向地址零。
 
-To avoid this initialization you can use `uninitialized`:
+你可以用`uninitialized`纸面这样的初始化：
 
 ```crystal
 value = uninitialized U::IntOrFloat
-value.some_int #=> some garbage value
+value.some_int #=> 无意义值
 ```
 
-You can set and get its properties:
+你可以读写其中的成员：
 
 ```crystal
 value = U::IntOrFloat.new
@@ -43,9 +42,9 @@ value.some_int #=> 1
 value.some_float #=> 4.94066e-324
 ```
 
-If the assigned value is not exactly the same as the property's type, [to_unsafe](to_unsafe.html) will be tried.
+如果这个赋值的类型并不正好是属性的值，那么会尝试调用 [to_unsafe](to_unsafe.html)方法，然后把返回值传进去。
 
-A C union is passed by value (as a copy) to functions and methods, and also passed by value when it is returned from a method:
+ C联合体按值(复制地)传递给函数和方法，并且也总是按值返回：
 
 ```crystal
 def change_it(value)
@@ -57,4 +56,4 @@ change_it value
 value.some_int #=> 0
 ```
 
-Refer to the [type grammar](../type_grammar.html) for the notation used in union field types.
+成员类型的声明详见 [类型语法](../type_grammar.html)。
