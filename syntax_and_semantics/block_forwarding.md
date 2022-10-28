@@ -89,7 +89,7 @@ end
 # After foo
 ```
 
-You can also use the `&block` syntax to forward blocks, but then you have to at least specify the input types, and the generated code will involve closures and will be slower:
+你也可以用 `&block` 来传递块，但是你至少要指出块的输入类型，并且，产生的代码会包含一个闭包，因此也更慢。
 
 ```crystal
 def foo
@@ -112,12 +112,12 @@ end
 # After foo
 ```
 
-Try to avoid forwarding blocks like this if doing `yield` is enough. There's also the issue that `break` and `next` are not allowed inside captured blocks, so the following won't work when using `&block` forwarding:
+如果 `yield` 够用，就尽量避免传递块。同时注意，在捕获的块中 `break` and `next` 都不能用。所以`&block`不能在接下来的代码中正确运行：
 
 ```crystal
 foo_forward do |i|
-  break # error
+  break # 错误
 end
 ```
 
-In short, avoid `&block` forwarding when `yield` is involved.
+总之，当有 `yield` 时避免传递块`&block` 。
