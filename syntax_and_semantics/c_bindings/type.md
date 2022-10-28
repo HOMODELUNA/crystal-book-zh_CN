@@ -1,6 +1,6 @@
 # type
 
-A `type` declaration inside a `lib` declares a kind of C `typedef`, but stronger:
+`lib` 中的 `type` 声明类似于C的 `typedef`，但是更强：
 
 ```crystal
 lib X
@@ -8,7 +8,7 @@ lib X
 end
 ```
 
-Unlike C, `Int32` and `MyInt` are not interchangeable:
+不同于 C， `Int32` 和 `MyInt` 不能互通：
 
 ```crystal
 lib X
@@ -17,10 +17,10 @@ lib X
   fun some_fun(value : MyInt)
 end
 
-X.some_fun 1 # Error: argument 'value' of 'X#some_fun'
-             # must be X::MyInt, not Int32
+X.some_fun 1 # 错误: 'X#some_fun' 的参数 'value'  
+             # 必须是 X::MyInt, 而不是 Int32
 ```
 
-Thus, a `type` declaration is useful for opaque types that are created by the C library you are wrapping. An example of this is the C `FILE` type, which you can obtain with `fopen`.
+因此， `type` 可以在C绑定中定义隐晦的类型。一个例子是C 的`FILE` 类型，你可以用 `fopen`获得。
 
-Refer to the [type grammar](../type_grammar.html) for the notation used in typedef types.
+这种类型的定义也如同 [类型语法](../type_grammar.html) 。

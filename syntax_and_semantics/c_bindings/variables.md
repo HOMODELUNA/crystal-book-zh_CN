@@ -1,6 +1,6 @@
-# Variables
+# 变量
 
-Variables exposed by a C library can be declared inside a `lib` declaration using a global-variable-like declaration:
+C库中暴露的变量可以用全局变量的形式在 `lib` 中定义：
 
 ```crystal
 lib C
@@ -8,7 +8,7 @@ lib C
 end
 ```
 
-Then it can be get and set:
+而后他可以进行读写：
 
 ```crystal
 C.errno #=> some value
@@ -16,7 +16,7 @@ C.errno = 0
 C.errno #=> 0
 ```
 
-A variable can be marked as thread local with an attribute:
+可以用属性把变量设为线程局部变量：
 
 ```crystal
 lib C
@@ -25,4 +25,4 @@ lib C
 end
 ```
 
-Refer to the [type grammar](../type_grammar.html) for the notation used in external variables types.
+外部变量的类型定义也如同 [类型语法](../type_grammar.html)。

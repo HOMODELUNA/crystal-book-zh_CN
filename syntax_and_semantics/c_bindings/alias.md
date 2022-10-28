@@ -1,6 +1,7 @@
-# alias
+# 类型别名
 
-An `alias` declaration inside a `lib` declares a C `typedef`:
+`lib` 中的 `alias` 声明类似于C的 `typedef`：
+
 
 ```crystal
 lib X
@@ -8,7 +9,7 @@ lib X
 end
 ```
 
-Now `Int32` and `MyInt` are interchangeable:
+这里 `Int32` 和 `MyInt` 是互通的：
 
 ```crystal
 lib X
@@ -20,7 +21,7 @@ end
 X.some_fun 1 # OK
 ```
 
-An `alias` is most useful to avoid writing long types over and over, but also to declare a type based on compile-time flags:
+`alias` 最适合用来避免写超长类型声明，同时创建一个编译时类型标志：
 
 ```crystal
 lib C
@@ -34,4 +35,4 @@ lib C
 end
 ```
 
-Refer to the [type grammar](../type_grammar.html) for the notation used in alias types.
+类型别名的定义也如同 [类型语法](../type_grammar.html)。

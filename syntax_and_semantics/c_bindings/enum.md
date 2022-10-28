@@ -1,10 +1,10 @@
 # enum
 
-An `enum` declaration inside a `lib` declares a C enum:
+在`lib` 中用`enum`声明C的枚举：
 
 ```crystal
 lib X
-  # In C:
+  # C 中:
   #
   #  enum SomeEnum {
   #    Zero,
@@ -21,15 +21,15 @@ lib X
 end
 ```
 
-As in C, the first member of the enum has a value of zero and each successive value is incremented by one.
+如同C的枚举, 第一个成员的值为零，随后每个成员数目增加1。
 
-To use a value:
+使用一个值：
 
 ```crystal
 X::SomeEnum::One #=> One
 ```
 
-You can specify the value of a member:
+你可以指定成员的值：
 
 ```crystal
 lib X
@@ -41,9 +41,9 @@ lib X
 end
 ```
 
-As you can see, some basic math is allowed for a member value: `+`, `-`, `*`, `/`, `&`, `|`, `<<`, `>>` and `%`.
+如你所见，枚举的值可以用成员的值可以做一些基本的数值运算： `+`, `-`, `*`, `/`, `&`, `|`, `<<`, `>>` 和 `%`。
 
-The type of an enum member is `Int32` by default, even if you specify a different type in a constant value:
+枚举成员的类型默认是 `Int32` ，即使你在单个成员中使用了不同的类型：
 
 ```crystal
 lib X
@@ -55,7 +55,7 @@ end
 X::SomeEnum #=> 1_i32
 ```
 
-However, you can change this default type:
+不过你可以改变基础类型：
 
 ```crystal
 lib X
@@ -69,7 +69,7 @@ X::SomeEnum::Zero #=> 0_i8
 X::SomeEnum::Two  #=> 2_i8
 ```
 
-You can use an enum as a type in a `fun` argument or `struct` or `union` members:
+你可以被枚举作为 `fun` 的参数，和 `struct` 或 `union` 的成员:
 
 ```crystal
 lib X

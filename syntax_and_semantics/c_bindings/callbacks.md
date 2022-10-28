@@ -1,6 +1,6 @@
-# Callbacks
+# 回调
 
-You can use function types in C declarations:
+你可以在C 库中声明函数类型：
 
 ```crystal
 lib X
@@ -11,41 +11,41 @@ lib X
 end
 ```
 
-Then you can pass a function (a [Proc](http://crystal-lang.org/api/Proc.html)) like this:
+而后你可以这样传递一个函数 ([Proc](http://crystal-lang.org/api/Proc.html))：
 
 ```crystal
 f = ->(x : Int32) { x + 1 }
 X.callback(f)
 ```
 
-If you define the function inline in the same call you can omit the argument types, the compiler will add the types for you based on the `fun` signature:
+如果你在调用时只写了一个块，那你可以不写类型，让编译器根据`fun`的签名替你标出来：
 
 ```crystal
 X.callback ->(x) { x + 1 }
 ```
 
-Note, however, that functions passed to C can't form closures. If the compiler detects at compile-time that a closure is being passed, an error will be issued:
+但是，注意，这些传递给C的函数不能形成闭包。如果编译器发现这个函数是一个闭包，它会报错：
 
+> 因为C的函数不过是一个函数指针,它就没有带其运行所需的环境。
 ```crystal
 y = 2
-X.callback ->(x) { x + y } # Error: can't send closure
-                           # to C function
+X.callback ->(x) { x + y } # 错误: 不能向C的函数传递闭包
 ```
 
-If the compiler can't detect this at compile-time, an exception will be raised at runtime.
+如果编译器在编译时没有发现，那就会在运行时产生异常。
 
-Refer to the [type grammar](../type_grammar.html) for the notation used in callbacks and procs types.
+回调所需的函数类型详见 [类型语法](../type_grammar.html) 
 
-If you want to pass `NULL` instead of a callback, just pass `nil`:
+如果你不想传递回调函数，而只是传递 `NULL`(空指针)，你可以传 `nil`：
 
 ```crystal
-# Same as callback(NULL) in C
+# 等同于C中的 callback(NULL) 
 X.callback nil
 ```
 
-### Passing a closure to a C function
+### 向 C 函数中传递闭包
 
-Most of the time a C function that allows setting a callback also provide an argument for custom data. This custom data is then sent as an argument to the callback. For example, suppose a C function that invokes a callback at every tick, passing that tick:
+C 在设置回调函数时往往允许附带一个void指针，用来传递这个函数所需的环境。举个例子，如果有个C函数每一刻都要执行某个函数，同时每次都需要刻的序号：
 
 ```crystal
 lib LibTicker
@@ -59,21 +59,20 @@ To properly define a wrapper for this function we must send the Proc as the call
 module Ticker
   @@box : Box(Int32 ->)
 
-  # The callback for the user doesn't have a Void*
+  # 用户用的回调不用带 Void*
   def self.on_tick(&callback : Int32 ->)
-    # Since Proc is a {Void*, Void*}, we can't turn that into a Void*, so we
-    # "box" it: we allocate memory and store the Proc there
+    # 因为 Proc 本质上就是 {Void*, Void*}, 我们不能把缩减成一个 Void*,
+    # 所以我们把它"包起来" : 我们在这里分配内存,存储 Proc 的环境
     boxed_data = Box.box(callback)
 
-    # We must save this in Crystal-land so the GC doesn't collect it (*)
+    # 我们必须在 Crystal的地盘存储这个函数和它的内存,以免 GC 收走他(*)
     @@box = boxed_data
 
-    # We pass a callback that doesn't form a closure, and pass the boxed_data as
-    # the callback data
+    # 我们把Process分成两份传递,一份是单独的函数指针,另一份是函数所需的环境
     LibTicker.on_tick(->(tick, data) {
-      # Now we turn data back into the Proc, using Box.unbox
+      # 我们用 Box.unbox 把数据还给 Proc
       data_as_callback = Box(typeof(callback)).unbox(data)
-      # And finally invoke the user's callback
+      # 现在我们才调用用户层的回调函数
       data_as_callback.call(tick)
     }, boxed_data)
   end
@@ -84,15 +83,15 @@ Ticker.on_tick do |tick|
 end
 ```
 
-Note that we save the boxed callback in `@@box`. The reason is that if we don't do it, and our code doesn't reference it anymore, the GC will collect it. The C library will of course store the callback, but Crystal's GC has no way of knowing that.
+注意我们用在 `@@box`中存储了包装起来的回调函数。这是因为如果我们不这么做，我们的代码就引用不到它了， GC就会把它收走。C库当然会存储这个回调，但是 Crystal 的 GC 不可能知道这些。
 
-## Raises attribute
+## Raises 属性
 
-If a C function executes a user-provided callback that might raise, it must be annotated with the `@[Raises]` attribute.
+如果 C 函数所执行的用户回调可能抛异常，他就必须加以 `@[Raises]` 属性。
 
-The compiler infers this attribute for a method if it invokes a method that is marked as `@[Raises]` or raises (recursively).
+即使你没有加`@[Raises]` ，却在回调(或是回调的子函数)中确实抛出了异常，编译器也会替你加上它。
 
-However, some C functions accept callbacks to be executed by other C functions. For example, suppose a fictitious library:
+但是，有些C函数存储回调函数，以供其他C函数使用。例如，考虑一个假想的库：
 
 ```crystal
 lib LibFoo
@@ -104,7 +103,7 @@ LibFoo.store_callback ->{ raise "OH NO!" }
 LibFoo.execute_callback
 ```
 
-If the callback passed to `store_callback` raises, then `execute_callback` will raise. However, the compiler doesn't know that `execute_callback` can potentially raise because it is not marked as `@[Raises]` and the compiler has no way to figure this out. In these cases you have to manually mark such functions:
+如果`store_callback`存储的这个回调函数会抛异常，那么 `execute_callback` 也会抛异常。然而，编译器不知道这个 `execute_callback` 也可能抛异常(因为他没有标注`@[Raises]`，编译器也没有其他的线索猜出来)，这时你必须手动把它标出来：
 
 ```crystal
 lib LibFoo
@@ -115,4 +114,4 @@ lib LibFoo
 end
 ```
 
-If you don't mark them, `begin/rescue` blocks that surround this function's calls won't work as expected.
+如果你不标它，这个函数周围的 `begin/rescue` 块可能会产生意想不到的麻烦。

@@ -1,6 +1,6 @@
-# Constants
+# 常量
 
-You can also declare constants inside a `lib` declaration:
+你也可以在 `lib` 中声明常量：
 
 ```crystal
 @[Link("pcre")]
