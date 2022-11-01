@@ -15,7 +15,7 @@
 
 对于常见的类型，我们提供了一些便捷语法。这在写 [C 绑定](c_bindings/index.html)时尤其有用，但是可以用于任何的这些地方。
 
-## Paths and generics
+## 路径(Paths) 和泛型(generics)
 
 常规类型和泛型都可以用：
 

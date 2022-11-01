@@ -1,21 +1,21 @@
-# Unsafe code
+# 不安全的(Unsafe) 代码
 
-These parts of the language are considered unsafe:
+语言的这些部分被认为是不安全的：
 
-* Code involving raw pointers: the [Pointer](http://crystal-lang.org/api/Pointer.html) type and [pointerof](pointerof.html).
-* The [allocate](new,_initialize_and_allocate.html) class method.
-* Code involving C bindings
-* [Uninitialized variable declaration](declare_var.html)
+* 涉及裸指针： [Pointer](http://crystal-lang.org/api/Pointer.html) 类型和 [pointerof](pointerof.html).
+* [allocate](new,_initialize_and_allocate.html) 类方法.
+* 涉及C绑定
+* [声明未初始化的变量](declare_var.html)
 
-"Unsafe" means that memory corruption, segmentation faults and crashes are possible to achieve. For example:
+"Unsafe" 意味着可能出现内存崩坏，段错误或程序崩溃。例如：
 
 ```crystal
 a = 1
 ptr = pointerof(a)
-ptr[100_000] = 2   # undefined behaviour, probably a segmentation fault
+ptr[100_000] = 2   # 未定义行为，可能出现段错误
 ```
 
-However, regular code usually never involves pointer manipulation or uninitialized variables. And C bindings are usually wrapped in safe wrappers that include null pointers and bounds checks.
+然而，正常的程序往往用不到手动操纵指针或是未初始化的变量。C函数的安全绑定也往往包括空指针和界限检查。
 
-No language is 100% safe: some parts will inevitably be low-level, interface with the operating system and involve pointer manipulation. But once you abstract that and operate on a higher level, and assume (after mathematical proof or thorough testing) that the lower grounds are safe, you can be confident that your entire codebase is safe.
+没有语言 100% 安全：总有部分注定要和底层打交道，与操作系统交互，涉及指针操作。但是只要你建立了抽象，在更高的层面进行操作，并且假设底下的地基是安全的(通过测试和形式证明来证实)，那么你就可以认为整个代码也是安全的。 
 

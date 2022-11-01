@@ -105,7 +105,7 @@ end
 
 如果 case 的值和when的条件是元组字面量，case的行为会有一些特殊。
 
-### Tuple size must match
+### 元组的大小必须匹配
 
 ```crystal
 case {value1, value2}

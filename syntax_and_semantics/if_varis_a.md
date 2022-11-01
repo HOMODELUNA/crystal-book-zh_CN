@@ -48,7 +48,7 @@ if a.is_a?(String)
   # 此处 a is 保证是 String
 end
 
-# A bit shorter:
+# 简短一些:
 if (a = @a).is_a?(String)
   # 此处 a is 保证是 String
 end
