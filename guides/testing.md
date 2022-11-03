@@ -1,144 +1,145 @@
-# Testing Crystal Code
+# 测试Crystal代码
 
-Crystal comes with a fully-featured spec library in the [`Spec` module](https://crystal-lang.org/api/latest/Spec.html). It provides a structure for writing executable examples of how your code should behave.
+Crystal 的 [`Spec`模块](https://crystal-lang.org/api/latest/Spec.html)自带一个功能完全的测试库。它提供了描述代码如何运行的语法结构。
 
-Inspired by [Rspec](http://rspec.info/), it includes a domain specific language (DSL) that allows you to write examples in a way similar to plain english.
+启发于 [Rspec](http://rspec.info/)，它包含一种领域特定语言 (DSL)来用类似于英语的方法来描述测试用例。
 
-A basic spec looks something like this:
+一个最基本的样例长这样：
 
 ```crystal
 require "spec"
 
 describe Array do
   describe "#size" do
-    it "correctly reports the number of elements in the Array" do
+    it "正确表示数组中元素的数目" do
       [1, 2, 3].size.should eq 3
     end
   end
 
   describe "#empty?" do
-    it "is true when no elements are in the array" do
+    it "当数组中没有元素时为真" do
       ([] of Int32).empty?.should be_true
     end
 
-    it "is false if there are elements in the array" do
+    it "当数组中有元素时为假" do
       [1].empty?.should be_false
     end
   end
 end
 ```
 
-## Anatomy of a spec file
+## 剖析测试文件
 
-To use the spec module and DSL, you need to add `require "spec"` to your spec files. Many projects use a custom [spec helper](#spec-helper) which organizes these includes.
+为了使用 spec 模块和 DSL，你需要在测试文件中加入 `require "spec"` 。许多项目都有一个自定义的 [spec helper](#spec-helper)来组织这些包含文件。
 
-Concrete test cases are defined in `it` blocks. An optional (but strongly recommended) descriptive string states it's purpose and a block contains the main logic performing the test.
+具体的测试内容在 `it`块从定义。一个可选的(但强烈建议写) 描述字符串表示它的目的，后面接一个块，包含测试的基本逻辑。
 
-Test cases that have been defined or outlined but are not yet expected to work can be defined using `pending` instead of `it`. They will not be run but show up in the spec report as pending.
+已经定义或预订，但是还没有保证能工作的情形可以以 `pending`定义，而不必是 `it`。 它们不会被运行，但是会在测试报告中以“待实现”的形式表示出来。
 
-An `it` block contains an example that should invoke the code to be tested and define what is expected of it. Each example can contain multiple expectations, but it should test only one specific behaviour.
+`it` 块包含一段代码。运行它，然后指定期望的结果。每个例子可以指定多个期待，但是最好每个块测试一种特定的行为。
 
-When `spec` is included, every object has the instance methods `#should` and `#should_not`. These methods are invoked on the value being tested with an expectation as argument. If the expectation is met, code execution continues. Otherwise the example has *failed* and other code in this block will not be executed.
+当 `spec`被包含时, 每个对象都会含有实例方法 `#should`和 `#should_not`。这些方法被所期待的元素调用。如果期待满足，代码就会继续运行；否则这个测试宣告失败，这个块中后续的代码就不再会运行。
 
-In test files, specs are structured by example groups which are defined by `describe` and `context` sections. Typically a top level `describe` defines the outer unit (such as a class) to be tested by the spec. Further `describe` sections can be nested within the outer unit to specify smaller units under test (such as individual methods).
+在测试文件中，样例以样例组的格式整理起来。每组样例以 `describe`或 `context`开头。 基本上，一个顶层 `describe`定义一个外部单元(such 比如一个类)的行为。 `describe` 可以更深入地嵌套起来，以指定一个更小单元的行为 (比如一个实例方法)。
 
-For unit tests, it is recommended to follow the conventions for method names: Outer `describe` is the name of the class, inner `describe` targets methods. Instance methods are prefixed with `#`, class methods with `.`.
+单元测试中有个被一直遵守的传统：外部 `describe`是指定类，内部 `describe`指定方法。实例方法以 `#`开头, 类方法以 `.`开头。
 
-To establish certain contexts - think *empty array* versus *array with elements* - the `context` method may be used to communicate this to the reader. It has a different name, but behaves exactly like `describe`.
+为了建立特定的情景——比如 *空数组* 对于 *有元素的数组*—— `context`方法有助于向读者解释这一点。他和 `describe`名字不一样，但是行为一样。
 
-`describe` and `context` take a description as argument (which should usually be a string) and a block containing the individual specs or nested groupings.
+`describe` 和 `context` 用一个元素做描述(往往是一个字符串) ，后带一个块，包含样例或是嵌套的样例组。
 
-## Expectations
+## 期望
 
-Expectations define if the value being tested (*actual*) matches a certain value or specific criteria.
+期待为测试的值设下规范，看测试值是不是*真的*符合预期。
 
-### Equivalence, Identity and Type
-There are methods to create expectations which test for equivalence (`eq`), identity (`be`), type (`be_a`), and nil (`be_nil`).
-Note that the identity expectation uses `.same?` which tests if [`#object_id`](https://crystal-lang.org/api/latest/Reference.html#object_id%3AUInt64-instance-method) are identical. This is only true if the expected value points to *the same object* instead of *an equivalent one*. This is only possible for reference types and won't work for value types like structs or numbers.
+### 等价，同一，类型匹配
+这些方法用于创建等价 (`eq`), 同一 (`be`), 类型匹配 (`be_a`), 空 (`be_nil`)方面的期望。
+
+注意，判断同一性用的是 `.same?` 方法，它判断两个对象的 [`#object_id`](https://crystal-lang.org/api/latest/Reference.html#object_id%3AUInt64-instance-method) 是否是一样的。这仅当两个引用指向的是 *同一个对象* ，而非 *等价的两个对象*时，才会成立. 这仅能检查引用类型的对象，不能检查值类型的对象，比如结构体或数字。
 ```crystal
-actual.should eq(expected)    # passes if actual == expected
-actual.should be(expected)    # passes if actual.same?(expected)
-actual.should be_a(expected)  # passes if actual.is_a?(expected)
-actual.should be_nil          # passes if actual.nil?
+actual.should eq(expected)    # 当 actual == expected     时匹配
+actual.should be(expected)    # 当 actual.same?(expected) 时匹配
+actual.should be_a(expected)  # 当 actual.is_a?(expected) 时匹配
+actual.should be_nil          # 当 actual.nil?            时匹配
 ```
 
-### Truthiness
+### 真性
 ```crystal
-actual.should be_true         # passes if actual == true
-actual.should be_false        # passes if actual == false
-actual.should be_truthy       # passes if actual is truthy (neither nil nor false nor Pointer.null)
-actual.should be_falsey       # passes if actual is falsey (nil, false or Pointer.null)
+actual.should be_true         # 当 actual == true   时匹配
+actual.should be_false        # 当 actual == false  时匹配
+actual.should be_truthy       # 当 actual 是真的     时匹配 (不是 nil, false, 或 Pointer.null)
+actual.should be_falsey       # 当 actual 是假的     时匹配 (nil, false 或 Pointer.null)
 ```
 
-### Comparisons
+### 比较
 ```crystal
-actual.should be <  expected  # passes if actual <  expected
-actual.should be <= expected  # passes if actual <= expected
-actual.should be >  expected  # passes if actual >  expected
-actual.should be >= expected  # passes if actual >= expected
+actual.should be <  expected  # 当 actual <  expected 时匹配
+actual.should be <= expected  # 当 actual <= expected 时匹配
+actual.should be >  expected  # 当 actual >  expected 时匹配
+actual.should be >= expected  # 当 actual >= expected 时匹配
 ```
 
-### Other matchers
+### 其他的匹配方式
 ```crystal
-actual.should be_close(expected, delta) # passes if actual is within delta of expected:
-                                        # (actual - expected).abs <= delta
-actual.should contain(expected)         # passes if actual.includes?(expected)
-actual.should match(expected)           # passes if actual =~ expected
+actual.should be_close(expected, delta) # 当 actual 在 expected 的 delta 邻域内 时匹配:
+                                        #   即 (actual - expected).abs <= delta
+actual.should contain(expected)         # 当 actual.includes?(expected)   时匹配
+actual.should match(expected)           # 当 actual =~ expected           时匹配
 ```
 
-### Expecting errors
+### 期待错误
 
-These matchers run a block and pass if it raises a certain exception.
+这些标志声明的块当抛出特定异常时匹配。
 
 ```crystal
 expect_raises(MyError) do
-  # Passes if this block raises an exception of type MyError.
+  # 当块抛出 MyError 类型的异常时匹配。
 end
 
 expect_raises(MyError, "error message") do
-  # Passes if this block raises an exception of type MyError
-  # and the error message contains "error message".
+  # 要求块抛出 MyError 类型的异常
+  # 并且错误内容包含 "error message"
 end
 
 expect_raises(MyError, /error \w{7}/) do
-  # Passes if this block raises an exception of type MyError
-  # and the error message matches the regular expression.
+  # 要求块抛出 MyError 类型的异常
+  # 并且错误内容匹配于这个表达式
 end
 ```
 
-They return the rescued exception so it can be used for further expectations, for example to verify specific properties of the exception.
+它们返回那个被挽救的异常，以用于后续的其他期许，如指定这个异常的属性等。
 
-## Running specs
+## 运行测试
 
-The Crystal compiler has a `spec` command with tools to constrain which examples get run and tailor the output. All specs of a project are compiled and executed through the command `crystal spec`.
+Crystal 编译器有一个 `spec` 命令来运行测试，同时指定测试范围，裁剪输出格式。 `crystal spec` 会编译运行项目内的所有测试文件。
 
-By convention, specs live in the `spec/` directory of a project. Spec files must end with `_spec.cr` to be recognizable as such by the compiler command.
+传统上，测试文件在项目的 `spec/` 目录。测试文件必须以 `_spec.cr` 结尾，来让编译器认识到。
 
-You can compile and run specs from folder trees, individual files or specific lines in a file.
+你可以从目录树，单独的文件，文件的某一行来指定测试的范围。
 
 ```bash
-# Run  all specs in files matching spec/**/*_spec.cr
+# 运行匹配于 spec/**/*_spec.cr 的所有文件
 crystal spec
 
-# Run all specs in files matching spec/my/test/**/*_spec.cr
+# 运行匹配于 spec/my/test/**/*_spec.cr 的所有文件
 crystal spec spec/my/test/
 
-# Run all specs in spec/my/test/file_spec.cr
+# 运行 spec/my/test/file_spec.cr 内的所有测试
 crystal spec spec/my/test/file_spec.cr
 
-# Run the spec or group defined in line 14 of spec/my/test/file_spec.cr
+# 运行 spec/my/test/file_spec.cr 于 14 行定义的一组测试
 crystal spec spec/my/test/file_spec.cr:14
 ```
 
-If the specified line is the beginning of a `describe` or `context` section, all specs inside that group are run.
+如果指定的行号是 `describe`或 `context`分区的开头，里面的所有测试例子都会被检验。
 
-The default formatter outputs the file and line style command for failing specs which makes it easy to rerun just this individual spec.
+基础的格式化器会输出失败样例的文件位置和行号，以便于重试这个错误的例子。
 
-## Spec helper
+## 测试辅助文件
 
-Many projects use a custom spec helper file, usually named `spec/spec_helper.cr`.
+许多项目都包含一个测试辅助文件，通常叫 `spec/spec_helper.cr`。
 
-This file is used to require `spec` and other includes like code from the project needed for every spec file. This is also a good place to define global helper methods that make writing specs easier and avoid code duplication.
+这个文件常用于包含`spec` 和其他项目中所需的包含文件。这里也适合定义测试用全局变量和方法，以简化测试过程，减少代码重复。 
 
 ```crystal
 # spec/spec_helper.cr
@@ -155,7 +156,7 @@ end
 require "./spec_helper"
 
 describe "MyProject::Object" do
-  it "is created" do
+  it "被创建" do
     object = create_test_object(name)
     object.should_not be_nil
   end
