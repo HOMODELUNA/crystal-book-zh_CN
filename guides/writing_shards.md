@@ -1,30 +1,30 @@
-# Writing Shards
+# 编写 Shard
 
-How to write and release Crystal Shards.
+这篇文章讲述了如何编写 Crystal Shard。
 
-## _What's a Shard?_
-Simply put, a Shard is a package of Crystal code, made to be shared-with and used-by other projects.
+## *什么是 Shard?*
+简单来说， Shard 是 Crystal 代码包， 用于共享给其他项目使用。
 
-## Introduction
+## 概述
 
-In this tutorial, we'll be making a Crystal library called _palindrome-example_.
+这篇教程中，我们会制作一个叫 _palindrome-example_ 的代码库.
 
-> For those who don't know, a palindrome is a word which is spelled the same way forwards as it is backwards. e.g. racecar, mom, dad, kayak, madam
+> 给不认识它的人：回文(palindrome)是一种从前到后和从后到前读都一样的词。例如： racecar, kayak, madam，“信言不美，美言不信”，“落花闲院春衫薄，薄衫春院闲花落”
 
-### Requirements
+### 要求
 
-In order to release a Crystal Shard, and follow along with this tutorial, you will need the following:
-* A working installation of the [Crystal compiler](../using_the_compiler/README.md)
-* A working installation of [Git](https://git-scm.com)
-* A [GitHub](https://github.com) account
+为了按照教程发布一个 Crystal Shard，你需要这些东西：
+* 一个可用的 [Crystal 编译器](../using_the_compiler/README.md)
+* 一个可用的 [Git](https://git-scm.com)
+* 一个 [GitHub](https://github.com) 账户
 
-### Creating the Project
+### 创建项目
 
-Begin by using [the Crystal compiler](../using_the_compiler/README.md)'s `init lib` command to create a Crystal library with the standard directory structure.
+用[Crystal 编译器](../using_the_compiler/README.md)的 `init lib` 命令，以标准目录结构创建Crystal库.
 
-In your terminal: `crystal init lib <YOUR-SHARD-NAME>`
+在终端中输入： `crystal init lib <YOUR-SHARD-NAME>`
 
-e.g.
+例如：
 ```bash
  $  crystal init lib palindrome-example
       create  palindrome-example/.gitignore
@@ -40,14 +40,14 @@ e.g.
 Initialized empty Git repository in /<YOUR-DIRECTORY>/.../palindrome-example/.git/
 ```
 
-...and `cd` into the directory:
+...然后 `cd` 进这个目录：
 
-e.g.
+如：
 ```bash
 cd palindrome-example
 ```
 
-Then `add` & `commit` to start tracking the files with Git:
+然后用 `add` & `commit` 把文件加入进Git档案：
 
 ```bash
  $  git add -A
@@ -66,94 +66,94 @@ Then `add` & `commit` to start tracking the files with Git:
  create mode 100644 src/palindrome-example/version.cr
 ```
 
-### Writing the Code
+### 编写代码
 
-The code you write is up to you, but how you write it impacts whether people want to use your library and/or help you maintain it.
+怎么写代码取决于你自己，但是你写的成果会决定别人是否愿意用你的库，还有你如何维护它。
 
-#### Testing the Code
-- Test your code. All of it. It's the only way for anyone, including you, to know if it works.
-- Crystal has [a built-in testing library](https://crystal-lang.org/api/Spec.html). Use it!
+#### 测试代码
+- 测试你的代码，全部。这是让所有人确定它是否如期工作的唯一方法，包括你自己。
+- Crystal有 [内置的测试库](https://crystal-lang.org/api/Spec.html)，用它就行了。
 
-#### Documentation
-- Document your code with comments. All of it. Even the private methods.
-- Crystal has [a built-in documentation generator](../conventions/documenting_code.md). Use it!
+#### 文档
+- 用规范的注释解释你的代码，全部，即使是私有方法。
+- Crystal有 [内置的文档生成器](../conventions/documenting_code.md)，用它就行了。
 
-Run `crystal docs` to convert your code and comments into interlinking API documentation. Open the files in the `/docs/` directory with a web browser to see how your documentation is looking along the way.
+运行 `crystal docs` 来把你的代码和注释转换为带链接的API文档。你可以用浏览器打开`/docs/` 目录来查看它。
 
-See below for instructions on hosting your compiler-generated docs on GitHub Pages.
+下面讲述了如何把你编译器产生的文档连接到 GitHub Pages。
 
-Once your documentation is ready and available, add this documentation badge below the description in your README.md so users know that it exists.
-(Be sure to replace `<LINK-TO-YOUR-DOCUMENTATION>` accordingly)
+只要你的文档写完了，并且可以达到，就把这个文档链接加入到你的README.md，这样用户就知道它们。
+(记得对应地更改 `<LINK-TO-YOUR-DOCUMENTATION>` )
 
 ```Markdown
 [![Docs](https://img.shields.io/badge/docs-available-brightgreen.svg)](<LINK-TO-YOUR-DOCUMENTATION>) 
 ```
 
-### Writing a README
+### 写 README
 
-A good README can make or break your project.
-[Awesome README](https://github.com/matiassingers/awesome-readme) is a nice curation of examples and resources on the topic.
+README 是你项目的脸面，对项目的成败都有重大影响。
+[Awesome README](https://github.com/matiassingers/awesome-readme) 是这方面的一个优秀例子，并且提供了充分的资源。
 
-Most importantly, your README should explain: 
-1. What your library is 
-2. What it does
-3. How to use it
+最重要的，你的 README 应当解释： 
+1. 你的库是什么
+2. 它干什么
+3. 怎么用它
 
-This explanation should include a few examples along with subheadings.
+这些解释都应当有良好的结构，辅以充实的样例。
 
-NOTE: Be sure to replace all instances of `[your-github-name]` in the Crystal-generated README template with your GitHub username.
+注意： 一定要把Crystal创建的 README 模板里的 `[your-github-name]` 改成你自己的 GitHub 用户名。
 
 
-#### Coding Style 
-- It's fine to have your own style, but sticking to [some core rubrics defined by the Crystal team](../conventions/coding_style.md) can help keep your code consistent, readable and usable for other developers.
-- Utilize Crystal's [built-in code formatter](../conventions/documenting_code.md) to automatically format all `.cr` files in a directory.
+#### 代码风格
+- 有自己的代码风格是好事，不过遵循 [Crystal 团队指定的核心准则](../conventions/coding_style.md)有助于增强代码一致性，可读性，也便于他人阅读和使用。
+- 利用Crystal的 [内置格式化器](../conventions/documenting_code.md) 可以自动格式化某个目录中的所有 `.cr`文件。
 
-e.g. 
+例如： 
 ```
 crystal tool format
 ```
 
-To check if your code is formatted correctly, or to check if using the formatter wouldn't produce any changes, simply add `--check` to the end of this command. 
+在命令参数中加 `--check` 可以检查你的代码是否已被正确格式化，即格式化起是否没有产生任何影响。
 
-e.g. 
+例如： 
 ```
 crystal tool format --check
 ```
 
-See the Travis CI section below to implement this in your build.
+下面的 Travis CI 会教你如何 below to implement this in your build.
 
 
-### Writing a `shard.yml`
+### 编写 `shard.yml`
 
-[The spec](https://github.com/crystal-lang/shards/blob/master/SPEC.md#names) is your rulebook. Follow it.
+以[spec](https://github.com/crystal-lang/shards/blob/master/SPEC.md#names) 为准。
 
-#### Name
-Your `shard.yml`'s `name` property should be concise and descriptive. 
+#### 名称
+你的 `shard.yml`的 `name` 属性应当准确地概括你的库。
 
-- Search [crystalshards.xyz](https://crystalshards.xyz/) to check if your name is already taken.
+- 搜索 [crystalshards.xyz](https://crystalshards.xyz/)来检查你的名字是否已经被占用。
 
-e.g.
+例如
 ```YAML
 name: palindrome-example
 ```
 
-#### Description
-Add a `description` to your `shard.yml`. 
+#### 描述
+`shard.yml`中的 `description`域是对你Shard的大致描述。
 
-A `description` is a single line description used to search for and find your shard.
+`description` 是用于找到你的Shard的一行概述。
 
-A description should be:
-1. Informative
-2. Discoverable
+描述应当：
+1. 翔实
+2. 浅显
 
-#### Optimizing
-It's hard for anyone to use your project if they can't find it.
-[crystalshards.xyz](https://crystalshards.xyz/) is currently the go-to place for Crystal libraries, so that's what we'll optimize for.
+#### 优化
+如果其他人压根找不到你的项目,那就很难用到它。
+[crystalshards.xyz](https://crystalshards.xyz/) 目前是 Crystal 库的索引，我们将对它作出优化。
 
-There are people looking for the _exact_ functionality of our library and the _general_ functionality of our library.
-e.g. Bob needs a palindrome library, but Felipe is just looking for libraries involving text and Susan is looking for libraries involving spelling.
+人们会询问库的*大致*功能和*准确*功能。
+比如， Bob 想要一个回文数库，但是 Felipe 想要一个涉及文本的库， Susan 又想要一个拼写检查库。
 
-Our `name` is already descriptive enough for Bob's search of "palindrome". We don't need to repeat the _palindrome_ keyword. Instead, we'll catch Susan's search for "spelling" and Felipe's search for "text".
+我们的 `name`域已经是 Bob想要的 "palindrome"，所以我们就不用重复 _palindrome_ 关键词。另外，我们要满足 Susan搜索的 "spelling"和 Felipe搜索的 "text"。
 ```YAML
 description: |
   A textual algorithm to tell if a word is spelled the same way forwards as it is backwards.
@@ -161,72 +161,72 @@ description: |
 
 ### GitHub
 
-- Create a repository with the same `name` and `description` as specified in your `shard.yml`.
+- 创建一个仓， `name`和 `description`都和你的 `shard.yml`相同。
 
-- Add and commit everything:
+- 加入所需的代码
 ```bash
 $ git add -A && git commit -am "shard complete"
 ```
-- Add the remote: (Be sure to replace `<YOUR-GITHUB-USERNAME>` and `<YOUR-REPOSITORY-NAME>` accordingly)
+- 设置远程仓: (记得对应地修改 `<YOUR-GITHUB-USERNAME>`和 `<YOUR-REPOSITORY-NAME>`)
 
-NOTE: If you like, feel free to replace `public` with `origin`, or a remote name of your choosing.
+注意： 你可以随意把 `public`替换为 `origin`，或是其他你喜欢的名字。
 ```bash 
 $ git remote add public https://github.com/<YOUR-GITHUB-NAME>/<YOUR-REPOSITORY-NAME>.git
 ```
-- Push it: 
+- Push 上去： 
 ```bash
 $ git push public master
 ```
 
 #### GitHub Releases
-It's good practice to do GitHub Releases.
+GitHub Releases 是个好的实践。
 
-Add the following markdown build badge below the description in your README to inform users what the most current release is:
-(Be sure to replace `<YOUR-GITHUB-USERNAME>` and `<YOUR-REPOSITORY-NAME>` accordingly)
+在你的README中加入编译提示，来提醒用户 release 的位置：
+ (记得对应地修改 `<YOUR-GITHUB-USERNAME>`和 `<YOUR-REPOSITORY-NAME>`)
 
 ```Markdown
 [![GitHub release](https://img.shields.io/github/release/<YOUR-GITHUB-USERNAME>/<YOUR-REPOSITORY-NAME>.svg)](https://github.com/<YOUR-GITHUB-USERNAME>/<YOUR-REPOSITORY-NAME>/releases)
 ```
 
-Start by navigating to your repository's _releases_ page.
-  - This can be found at `https://github.com/<YOUR-GITHUB-NAME>/<YOUR-REPOSITORY-NAME>/releases`
+一开始线把它设为你的 _releases_ 页面。
+  - 它们在 `https://github.com/<YOUR-GITHUB-NAME>/<YOUR-REPOSITORY-NAME>/releases`
 
-Click "Create a new release".
+点击 "Create a new release".
 
-According to [the Crystal Shards README](https://github.com/crystal-lang/shards/blob/master/README.md), 
-> When libraries are installed from Git repositories, the repository is expected to have version tags following a semver-like format, prefixed with a `v`. Examples: v1.2.3, v2.0.0-rc1 or v2017.04.1
+根据 [ Crystal Shards README](https://github.com/crystal-lang/shards/blob/master/README.md), 
+> 当库在 repositories发布时, 这个仓应当有 semver式的版本标签，以 `v`为前缀。例如： v1.2.3, v2.0.0-rc1 或 v2017.04.1
 
-Accordingly, in the input that says `tag version`, type `v0.1.0`. Make sure this matches the `version` in `shard.yml`. Title it `v0.1.0` and write a short description for the release.
+相应地，在 `tag version`输入你的版本, 比如 `v0.1.0`，这一定要与  `shard.yml` 中的`version`匹配。写上 `v0.1.0`，然后写一小段发布通告。 
 
-Click "Publish release" and you're done!
+点击 "Publish release"，完成。
 
-You'll now notice that the GitHub Release badge has updated in your README.
+你现在就会注意到README 里面的 GitHub Release badge已经更新了。
 
-Follow [Semantic Versioning](http://semver.org/) and create a new release every time your push new code to `master`.
+遵循[语义版本](http://semver.org/)，每次创建新Realease时都把你的代码推送到 `master`。
 
-### Travis CI and `.travis.yml`
-If you haven't already, [sign up for Travis CI](https://travis-ci.org/).
+### Travis CI 和 `.travis.yml`
+如果你没有准备好，就先去 [注册 Travis CI 账号](https://travis-ci.org/)。
 
-Insert the following markdown build badge below the description in your README.md:
-(be sure to replace `<YOUR-GITHUB-USERNAME>` and `<YOUR-REPOSITORY-NAME>` accordingly)
+在你README.md 的description 下方加入 build badge:
+ (记得对应地修改 `<YOUR-GITHUB-USERNAME>`和 `<YOUR-REPOSITORY-NAME>`)
 ```Markdown
 [![Build Status](https://travis-ci.org/<YOUR-GITHUB-USERNAME>/<YOUR-REPOSITORY-NAME>.svg?branch=master)](https://travis-ci.org/<YOUR-GITHUB-USERNAME>/<YOUR-REPOSITORY-NAME>) 
 ```
-Build badges are a simple way to tell people whether your Travis CI build passes.
+Build badges 可以简洁地告诉人们你的代码是否通过了 Travis CI 编译。
 
-Add the following lines to your `.travis.yml`:
+把这些加入你的 `.travis.yml`：
 ```YAML
 script:
   - crystal spec
 ```
 
-This tells Travis CI to run your tests. 
-Accordingly with the outcome of this command, Travis CI will return a [build status](https://docs.travis-ci.com/user/customizing-the-build/#Breaking-the-Build) of "passed", "errored", "failed" or "canceled".
+这会让 Travis CI运行你的测试样例。 
+根据命令的结果， Travis CI 会返回一个 [构建状态](https://docs.travis-ci.com/user/customizing-the-build/#Breaking-the-Build) ，它是 "passed", "errored", "failed" 或 "canceled" 的一种。
 
 
-If you want to verify that all your code has been formatted with `crystal tool format`, add a script for `crystal tool format --check`. If the code is not formatted correctly, this will [break the build](https://docs.travis-ci.com/user/for-beginners/#Breaking-the-Build) just as failing tests would.
+如果你希望所有的代码都以 `crystal tool format`格式化，增加一行 `crystal tool format --check`。如果代码没有正确格式化，这就会 [破坏构建状态](https://docs.travis-ci.com/user/for-beginners/#Breaking-the-Build) ，就像测试失败了一样。
 
-e.g.
+例如
 ```YAML
 script:
   - crystal spec
@@ -234,24 +234,24 @@ script:
 ```
 
 
-Commit and push to GitHub.
+Commit ，然后 push 到 GitHub。
 
-Follow [these guidelines](https://docs.travis-ci.com/user/getting-started/) to get your repo up & running on Travis CI.
+按照[如下指示](https://docs.travis-ci.com/user/getting-started/) 建立 repo & 运行 Travis CI。
 
-Once you're up and running, and the build is passing, the build badge will update in your README.
+一旦你运行起来，编译通过，你README中的 build badge就会被更新。
 
 
-#### Hosting your `docs` on GitHub-Pages
+#### 把 `docs` 绑定到 GitHub-Pages
 
-Add the following `script` to your `.travis.yml`:
+把这些 `script` 加入你的 `.travis.yml`:
 ```YAML
   - crystal docs
 ```
 
-This tells Travis CI to generate your documentation.
+这会让 Travis CI 创建你的文档。
 
-Next, add the following lines to your `.travis.yml`.
-(Be sure to replace all instances of `<YOUR-GITHUB-REPOSITORY-NAME>` accordingly)
+然后，把这些部分加入你的 `.travis.yml`：
+(记得对应地更改 `<YOUR-GITHUB-REPOSITORY-NAME>`)
 ```YAML
 deploy:
   provider: pages
@@ -263,9 +263,9 @@ deploy:
   local_dir: docs
 ```
 
-[Set the Environment Variable](https://docs.travis-ci.com/user/environment-variables#Defining-Variables-in-Repository-Settings), `GITHUB_TOKEN`, with your [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/).
+用你的[personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)和 `GITHUB_TOKEN`来[设置环境变量](https://docs.travis-ci.com/user/environment-variables#Defining-Variables-in-Repository-Settings)。
 
-If you've been following along, your `.travis.yml` file should look something like this:
+一路下来 `.travis.yml`应当看着像这样：
 
 ```YAML
 language: crystal
@@ -282,4 +282,4 @@ deploy:
   local_dir: docs
 ```
 
-[Click Here](https://docs.travis-ci.com/user/deployment/pages/) for the official documentation on deploying to GitHub-Pages with Travis CI.
+[这里](https://docs.travis-ci.com/user/deployment/pages/) 有用 Travis CI 部署 GitHub-Pages 的官方文档。
