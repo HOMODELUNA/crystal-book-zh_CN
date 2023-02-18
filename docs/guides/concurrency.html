@@ -1,0 +1,467 @@
+<!DOCTYPE HTML>
+<html lang="zn_cn" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>并发 - Crystal 语言参考</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> 介绍</a></li><li class="chapter-item expanded "><a href="../installation/index.html"><strong aria-hidden="true">2.</strong> 安装</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../installation/on_debian_and_ubuntu.html"><strong aria-hidden="true">2.1.</strong> 在 Debian 和 Ubuntu</a></li><li class="chapter-item expanded "><a href="../installation/on_redhat_and_centos.html"><strong aria-hidden="true">2.2.</strong> 在 RedHat 和 CentOS</a></li><li class="chapter-item expanded "><a href="../installation/on_arch_linux.html"><strong aria-hidden="true">2.3.</strong> 在 Arch Linux</a></li><li class="chapter-item expanded "><a href="../installation/on_gentoo_linux.html"><strong aria-hidden="true">2.4.</strong> 在 Gentoo Linux</a></li><li class="chapter-item expanded "><a href="../installation/on_mac_osx_using_homebrew.html"><strong aria-hidden="true">2.5.</strong> 在 Mac OSX 使用 Homebrew</a></li><li class="chapter-item expanded "><a href="../installation/on_linux_using_linuxbrew.html"><strong aria-hidden="true">2.6.</strong> 在 Linux 使用 Linuxbrew</a></li><li class="chapter-item expanded "><a href="../installation/on_bash_on_ubuntu_on_windows.html"><strong aria-hidden="true">2.7.</strong> 在 Windows 的 Ubuntu 子系统使用 Bash</a></li><li class="chapter-item expanded "><a href="../installation/on_native_windows.html"><strong aria-hidden="true">2.8.</strong> 在 Windows 原生环境</a></li><li class="chapter-item expanded "><a href="../installation/from_a_targz.html"><strong aria-hidden="true">2.9.</strong> 从 tar.gz</a></li><li class="chapter-item expanded "><a href="../installation/from_source_repository.html"><strong aria-hidden="true">2.10.</strong> 从源码编译</a></li></ol></li><li class="chapter-item expanded "><a href="../using_the_compiler/index.html"><strong aria-hidden="true">3.</strong> 使用编译器</a></li><li class="chapter-item expanded "><a href="../overview/index.html"><strong aria-hidden="true">4.</strong> 概览和例子</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../overview/hello_world.html"><strong aria-hidden="true">4.1.</strong> Hello World!</a></li><li class="chapter-item expanded "><a href="../overview/http_server.html"><strong aria-hidden="true">4.2.</strong> HTTP Server</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/index.html"><strong aria-hidden="true">5.</strong> 语法和语义</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/comments.html"><strong aria-hidden="true">5.1.</strong> 注释</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/literals.html"><strong aria-hidden="true">5.2.</strong> 字面量</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/literals/nil.html"><strong aria-hidden="true">5.2.1.</strong> Nil</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/literals/bool.html"><strong aria-hidden="true">5.2.2.</strong> Bool</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/literals/integers.html"><strong aria-hidden="true">5.2.3.</strong> 整数</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/literals/floats.html"><strong aria-hidden="true">5.2.4.</strong> 浮点数</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/literals/char.html"><strong aria-hidden="true">5.2.5.</strong> 字符</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/literals/string.html"><strong aria-hidden="true">5.2.6.</strong> 字符串</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/literals/symbol.html"><strong aria-hidden="true">5.2.7.</strong> 符号</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/literals/array.html"><strong aria-hidden="true">5.2.8.</strong> 数组</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/literals/hash.html"><strong aria-hidden="true">5.2.9.</strong> 散列</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/literals/range.html"><strong aria-hidden="true">5.2.10.</strong> 范围</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/literals/regex.html"><strong aria-hidden="true">5.2.11.</strong> 正则表达式</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/literals/tuple.html"><strong aria-hidden="true">5.2.12.</strong> 元组</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/literals/named_tuple.html"><strong aria-hidden="true">5.2.13.</strong> 命名元组</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/literals/proc.html"><strong aria-hidden="true">5.2.14.</strong> 闭包</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/assignment.html"><strong aria-hidden="true">5.3.</strong> 赋值</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/multiple_assignment.html"><strong aria-hidden="true">5.3.1.</strong> 多重赋值</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/local_variables.html"><strong aria-hidden="true">5.4.</strong> 局部变量</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/control_expressions.html"><strong aria-hidden="true">5.5.</strong> 控制结构</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/truthy_and_falsey_values.html"><strong aria-hidden="true">5.5.1.</strong> “真”与“假”值</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/if.html"><strong aria-hidden="true">5.5.2.</strong> if</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/as_a_suffix.html"><strong aria-hidden="true">5.5.2.1.</strong> 作为后缀</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/as_an_expression.html"><strong aria-hidden="true">5.5.2.2.</strong> 作为表达式</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/ternary_if.html"><strong aria-hidden="true">5.5.2.3.</strong> 三元 if 表达式</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/if_var.html"><strong aria-hidden="true">5.5.2.4.</strong> if 变量</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/if_varis_a.html"><strong aria-hidden="true">5.5.2.5.</strong> if var.is_a?(...)</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/if_varresponds_to.html"><strong aria-hidden="true">5.5.2.6.</strong> if var.responds_to?(...)</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/if_var_nil.html"><strong aria-hidden="true">5.5.2.7.</strong> if var.nil?</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/not.html"><strong aria-hidden="true">5.5.2.8.</strong> if !</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/unless.html"><strong aria-hidden="true">5.5.3.</strong> unless</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/case.html"><strong aria-hidden="true">5.5.4.</strong> case</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/while.html"><strong aria-hidden="true">5.5.5.</strong> while</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/break.html"><strong aria-hidden="true">5.5.5.1.</strong> break</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/next.html"><strong aria-hidden="true">5.5.5.2.</strong> next</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/until.html"><strong aria-hidden="true">5.5.6.</strong> until</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/and.html"><strong aria-hidden="true">5.5.7.</strong> &&</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/or.html"><strong aria-hidden="true">5.5.8.</strong> ||</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/requiring_files.html"><strong aria-hidden="true">5.6.</strong> 导入文件</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/types_and_methods.html"><strong aria-hidden="true">5.7.</strong> 类型和方法</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/everything_is_an_object.html"><strong aria-hidden="true">5.7.1.</strong> 一切都是对象</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/the_program.html"><strong aria-hidden="true">5.7.2.</strong> Crystal 程序</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/classes_and_methods.html"><strong aria-hidden="true">5.7.3.</strong> 类和方法</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/new,_initialize_and_allocate.html"><strong aria-hidden="true">5.7.3.1.</strong> 实例化，初始化和内存分配</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/methods_and_instance_variables.html"><strong aria-hidden="true">5.7.3.2.</strong> 方法和实例变量</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/type_inference.html"><strong aria-hidden="true">5.7.3.3.</strong> 类型推导</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/union_types.html"><strong aria-hidden="true">5.7.3.4.</strong> 联合类型</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/overloading.html"><strong aria-hidden="true">5.7.3.5.</strong> 重载</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/default_and_named_arguments.html"><strong aria-hidden="true">5.7.3.6.</strong> 命名参数和默认值</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/splats_and_tuples.html"><strong aria-hidden="true">5.7.3.7.</strong> 不定数目参数和元组展开</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/type_restrictions.html"><strong aria-hidden="true">5.7.3.8.</strong> 类型限制</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/return_types.html"><strong aria-hidden="true">5.7.3.9.</strong> 返回类型</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/default_values_named_arguments_splats_tuples_and_overloading.html"><strong aria-hidden="true">5.7.3.10.</strong> 方法形参详述</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/operators.html"><strong aria-hidden="true">5.7.3.11.</strong> 运算符</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/visibility.html"><strong aria-hidden="true">5.7.3.12.</strong> 可见性</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/inheritance.html"><strong aria-hidden="true">5.7.3.13.</strong> 继承</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/virtual_and_abstract_types.html"><strong aria-hidden="true">5.7.3.13.1.</strong> 虚类型和抽象类型</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/class_methods.html"><strong aria-hidden="true">5.7.3.14.</strong> 类方法</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/class_variables.html"><strong aria-hidden="true">5.7.3.15.</strong> 类变量</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/finalize.html"><strong aria-hidden="true">5.7.3.16.</strong> finalize</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/modules.html"><strong aria-hidden="true">5.7.4.</strong> 模块</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/generics.html"><strong aria-hidden="true">5.7.5.</strong> 泛型</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/structs.html"><strong aria-hidden="true">5.7.6.</strong> 结构体</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/constants.html"><strong aria-hidden="true">5.7.7.</strong> 常量</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/enum.html"><strong aria-hidden="true">5.7.8.</strong> 枚举</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/blocks_and_procs.html"><strong aria-hidden="true">5.7.9.</strong> 块和闭包</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/capturing_blocks.html"><strong aria-hidden="true">5.7.9.1.</strong> 捕获块</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/proc_literal.html"><strong aria-hidden="true">5.7.9.2.</strong> 闭包字面量</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/block_forwarding.html"><strong aria-hidden="true">5.7.9.3.</strong> 传递块</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/closures.html"><strong aria-hidden="true">5.7.9.4.</strong> 闭包及其环境变量</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/alias.html"><strong aria-hidden="true">5.7.10.</strong> 别名</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/exception_handling.html"><strong aria-hidden="true">5.8.</strong> 异常处理</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/type_grammar.html"><strong aria-hidden="true">5.9.</strong> 类型语法</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/type_reflection.html"><strong aria-hidden="true">5.10.</strong> 类型反射</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/is_a.html"><strong aria-hidden="true">5.10.1.</strong> is_a?</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/nil_question.html"><strong aria-hidden="true">5.10.2.</strong> nil?</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/responds_to.html"><strong aria-hidden="true">5.10.3.</strong> responds_to?</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/as.html"><strong aria-hidden="true">5.10.4.</strong> as</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/as_question.html"><strong aria-hidden="true">5.10.5.</strong> as?</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/typeof.html"><strong aria-hidden="true">5.10.6.</strong> typeof</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/macros.html"><strong aria-hidden="true">5.11.</strong> 宏</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/macros/macro_methods.html"><strong aria-hidden="true">5.11.1.</strong> 宏方法</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/macros/hooks.html"><strong aria-hidden="true">5.11.2.</strong> 钩子</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/macros/fresh_variables.html"><strong aria-hidden="true">5.11.3.</strong> 宏内变量</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/attributes.html"><strong aria-hidden="true">5.12.</strong> 属性</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/low_level_primitives.html"><strong aria-hidden="true">5.13.</strong> 底层原语</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/pointerof.html"><strong aria-hidden="true">5.13.1.</strong> pointerof</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/sizeof.html"><strong aria-hidden="true">5.13.2.</strong> sizeof</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/instance_sizeof.html"><strong aria-hidden="true">5.13.3.</strong> instance_sizeof</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/declare_var.html"><strong aria-hidden="true">5.13.4.</strong> 声明未初始化的变量</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/compile_time_flags.html"><strong aria-hidden="true">5.14.</strong> 编译时标记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/cross-compilation.html"><strong aria-hidden="true">5.14.1.</strong> 交叉编译</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/c_bindings/index.html"><strong aria-hidden="true">5.15.</strong> C语言绑定</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/c_bindings/lib.html"><strong aria-hidden="true">5.15.1.</strong> lib</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/c_bindings/fun.html"><strong aria-hidden="true">5.15.2.</strong> fun</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../syntax_and_semantics/c_bindings/out.html"><strong aria-hidden="true">5.15.2.1.</strong> out</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/c_bindings/to_unsafe.html"><strong aria-hidden="true">5.15.2.2.</strong> to_unsafe</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/c_bindings/struct.html"><strong aria-hidden="true">5.15.3.</strong> struct</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/c_bindings/union.html"><strong aria-hidden="true">5.15.4.</strong> union</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/c_bindings/enum.html"><strong aria-hidden="true">5.15.5.</strong> enum</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/c_bindings/variables.html"><strong aria-hidden="true">5.15.6.</strong> 变量</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/c_bindings/constants.html"><strong aria-hidden="true">5.15.7.</strong> 常量</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/c_bindings/type.html"><strong aria-hidden="true">5.15.8.</strong> 类型</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/c_bindings/alias.html"><strong aria-hidden="true">5.15.9.</strong> 别名</a></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/c_bindings/callbacks.html"><strong aria-hidden="true">5.15.10.</strong> 回调</a></li></ol></li><li class="chapter-item expanded "><a href="../syntax_and_semantics/unsafe.html"><strong aria-hidden="true">5.16.</strong> Unsafe 代码</a></li></ol></li><li class="chapter-item expanded "><a href="../conventions/index.html"><strong aria-hidden="true">6.</strong> 约定</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../conventions/coding_style.html"><strong aria-hidden="true">6.1.</strong> 代码风格</a></li><li class="chapter-item expanded "><a href="../conventions/documenting_code.html"><strong aria-hidden="true">6.2.</strong> 代码注释</a></li></ol></li><li class="chapter-item expanded "><a href="../database/index.html"><strong aria-hidden="true">7.</strong> 数据库</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../database/connection_pool.html"><strong aria-hidden="true">7.1.</strong> 连接池</a></li></ol></li><li class="chapter-item expanded "><a href="../guides/index.html"><strong aria-hidden="true">8.</strong> 导引</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../guides/performance.html"><strong aria-hidden="true">8.1.</strong> 性能</a></li><li class="chapter-item expanded "><a href="../guides/concurrency.html" class="active"><strong aria-hidden="true">8.2.</strong> 并发</a></li><li class="chapter-item expanded "><a href="../guides/testing.html"><strong aria-hidden="true">8.3.</strong> 测试</a></li><li class="chapter-item expanded "><a href="../guides/writing_shards.html"><strong aria-hidden="true">8.4.</strong> 编写 Shards 包</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Crystal 语言参考</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="并发"><a class="header" href="#并发">并发</a></h1>
+<h2 id="并发-vs-并行"><a class="header" href="#并发-vs-并行">并发 vs. 并行</a></h2>
+<p>“并发”和“并行”的定义有时会混杂起来，但根本上来说它们不一样。</p>
+<p>一个并发系统是可以做多个任务的系统，至于是否真的在同时执行尚在其次。你可以想象你在厨房做饭：你切洋葱，把它扔进锅里炸，炸的同时你又在切西红柿。如此种种时你没有同时做所有事情，你只是把时间分配到不同的任务上。至于并行，就是你一只手在炸洋葱，另一只手又在切西红柿。</p>
+<p>此文写成之时， Crystal仍没有支持并行。只是支持并发。多个任务都能执行，每个都能分配到一些时间，但是两个任务绝不会同时执行。</p>
+<blockquote>
+<p>译注: 1.5版本(2022年)的crystal文档中没有说明多线程并行，然而相关代码在2019年已经<a href="https://github.com/crystal-lang/crystal/pull/8112">合并</a>到crystal的主分支</p>
+</blockquote>
+<p>一个 Crystal 程序运行在一个操作系统线程上,只有&quot;标记——清扫&quot;型垃圾收集器是并行的(目前是 <a href="http://www.hboehm.info/gc/">Boehm GC</a>)。</p>
+<h3 id="纤程fibers"><a class="header" href="#纤程fibers">纤程(Fibers)</a></h3>
+<p>为了实现并发， Crystal 添加了纤程 (fibers)。一个 纤程类似于操作系统线程,但是更加轻量，并且由进程内部管理。因此一个程序可以启动多个纤程，并且Crystal会保证在合适的时候执行它们。</p>
+<h3 id="事件循环"><a class="header" href="#事件循环">事件循环</a></h3>
+<p>每个有关 I/O 的对象都配有一个事件循环。有些耗时的操作会被委派给它们, 当事件循环等待这个操作执行时，程序可以执行其他的纤程。一个简单的例子是等待从 socket中传来的数据。</p>
+<h3 id="管道channels"><a class="header" href="#管道channels">管道(Channels)</a></h3>
+<p>Crystal有受<a href="https://en.wikipedia.org/wiki/Communicating_sequential_processes">CSP</a>启发而得的管道 (Channels)。它们可以在纤程间传递信息而不用手动传递内存，因此编程时也不用担心锁，信号量等结构和问题。</p>
+<blockquote>
+<p>译注: 原文不便访问，<a href="https://zhuanlan.zhihu.com/p/455843256">这篇文档</a>讲了Actor和CSP两种并发模型。</p>
+</blockquote>
+<h2 id="一个程序的执行流程"><a class="header" href="#一个程序的执行流程">一个程序的执行流程</a></h2>
+<p>当一个程序启动时，他会启动在你顶层代码执行的主纤程。一个纤程可以启动其他纤程。程序大概由这几部分组成：</p>
+<ul>
+<li>运行时调度器：在合适的时间执行所有纤程</li>
+<li>事件循环：它也是另一个纤程，用来管理异步任务，例如文件，socket，管道(pipes)，信号量和计时器(比如执行 <code>sleep</code>)。</li>
+<li>管道：用以在纤程间传递数据。运行时调度器会协调纤程和管道之间的通讯。</li>
+<li>垃圾收集器: 清理 &quot;不再有用&quot;的内存。</li>
+</ul>
+<h3 id="纤程fiber"><a class="header" href="#纤程fiber">纤程fiber)</a></h3>
+<p>纤程(fiber)是程序执行的单元，但是比线程更轻量。它就是一个关联到一个of 8MB  <a href="https://en.wikipedia.org/wiki/Call_stack">栈</a> 的小对象, 而栈则被分配给一个操作系统线程。</p>
+<p>纤程是协作式的，这一点与线程不同。线程是抢占式的：操作系统可能在任何时候打断一个线程其执行另一个。一个纤程必须显式地通知调度器去执行其他纤程。举个例子，如果一个纤程要等待 I/O 操作， 它会告诉调度器： “看，我要等这个 I/O 操作可用，你先执行其他纤程，等这个 I/O 好的时候再叫我。”</p>
+<p>协作式执行的好处是：这避免了切换上下文(切换纤程时所必须)的一大堆开销。</p>
+<p>纤程比一线程轻量之处在于：即使它被分配了 8MB的栈空间，他一开始也只是一个 4KB的小栈。</p>
+<p>在 64位机器上我们可以启动不计其数的纤程，而在32位机上我们最多启动 512个纤程。不过32位机现在已经濒临过时，我们以后就只注重64位机。</p>
+<h3 id="运行时调度器"><a class="header" href="#运行时调度器">运行时调度器</a></h3>
+<p>调度区用一个队列容纳：</p>
+<ul>
+<li>就绪的纤程：比如你启动一个纤程时，他就是就绪的，可以执行。</li>
+<li>事件循环： 其实也是纤程. 当没有其他可执行的纤程时事件循环会检查有没有异步操作完成，如果有，就执行依赖于它的纤程。事件循环目前是由 <code>libevent</code>实现，它是<code>epoll</code> 或 <code>kqueue</code>等机制的抽象。</li>
+<li>自发要求等待的纤程：这可以由 <code>Fiber.yield</code>指定，意思是 “我本可以继续执行，但是我给你机会去执行其他的纤程。”</li>
+</ul>
+<h3 id="数据交流"><a class="header" href="#数据交流">数据交流</a></h3>
+<p>因为现在只有一个事实的线程在执行程序，多个纤程获取和更改同一个类变量暂时没有问题。但是一旦语言中实现了多线程 (并行) 它就可能有隐患。因此不要这样传递数据，而是建立管道，通过管道发送消息。在内部，一个管道实现了加锁机制以避免数据竞争，然而在外部，你把它当做交流的基本方式。这样你(用户)就不必手动加锁。</p>
+<h2 id="代码示例"><a class="header" href="#代码示例">代码示例</a></h2>
+<h3 id="生成一个纤程"><a class="header" href="#生成一个纤程">生成一个纤程</a></h3>
+<p>用 <code>spawn</code> 加一个块来生成纤程：</p>
+<pre><code class="language-crystal">spawn do
+  # ...
+  socket.gets
+  # ...
+end
+
+spawn do
+  # ...
+  sleep 5.seconds
+  #  ...
+end
+</code></pre>
+<p>现在我们有了两个纤程：一个从socket中读取消息，另一个只是做 <code>sleep</code>。当第一个纤程到达 <code>socket.gets</code> 一行，它就会被挂起，事件循环会记得在socket有消息后执行这个纤程。然后程序会执行第二个纤程。这个纤程想要睡5秒，因此事件循环会记得在5秒后执行这个纤程。如果此时没有其他纤程可执行，事件循环会等到这些事件发生，而不用占用CPU时间。</p>
+<p><code>socket.gets</code> 和 <code>sleep</code> 表现如此的原因是它们的实现直接面对运行时调度器，这不是什么玄学。只是标准库往往已经包揽了这些工作，你不用手动做而已。</p>
+<p>然而注意，纤程不会在创建时立刻执行。例如：</p>
+<pre><code class="language-crystal">spawn do
+  loop do
+    puts &quot;Hello!&quot;
+  end
+end
+</code></pre>
+<p>运行这些代码，程序就会利己退出，什么输出也不会有。</p>
+<p>这是因为纤程并不会在创建时立即执行。因此，主纤程创建了这个纤程，自己执行，然后整个程序就退了出。</p>
+<p>一个解决方案是加 <code>sleep</code>：</p>
+<pre><code class="language-crystal">spawn do
+  loop do
+    puts &quot;Hello!&quot;
+  end
+end
+
+sleep 1.second
+</code></pre>
+<p>这个程序会在一秒内持续打印打印 &quot;Hello!&quot;，然后退出。这是因为 <code>sleep</code>会让主纤程等到一秒后才被执行，这时程序会执行另一个就绪的纤程，即上面一直打 &quot;Hello!&quot;的那个。</p>
+<p>另一种方法是：</p>
+<pre><code class="language-crystal">spawn do
+  loop do
+    puts &quot;Hello!&quot;
+  end
+end
+
+Fiber.yield
+</code></pre>
+<p>这次 <code>Fiber.yield</code> 会告诉调度器去执行其他纤程。这会打印 &quot;Hello!&quot; 直到标准输出阻塞 (系统调用会告诉我们等到标准输出可用的时候)，然后主纤程恢复执行，程序退出。这里标准输出<em>也许</em> 不会阻塞，于是程序就会一直执行下去。</p>
+<p>如果我们想要永远执行一个所创建的纤程，我们可以使用不加参数的 <code>sleep</code>：</p>
+<blockquote>
+<p>译注 : 永眠 ()</p>
+</blockquote>
+<pre><code class="language-crystal">spawn do
+  loop do
+    puts &quot;Hello!&quot;
+  end
+end
+
+sleep
+</code></pre>
+<p>当然这个程序根本用不着 <code>spawn</code>，直接写循环就行了。 <code>sleep</code> 在创建多个纤程时更有用。</p>
+<h3 id="生成方法调用"><a class="header" href="#生成方法调用">生成方法调用</a></h3>
+<p>你也可以生成一个纤程去调用方法，而不是执行块。你可以看这个例子来明白它的用处：</p>
+<pre><code class="language-crystal">i = 0
+while i &lt; 10
+  spawn do
+    puts(i)
+  end
+  i += 1
+end
+
+Fiber.yield
+</code></pre>
+<p>上面的程序会打印 &quot;10&quot; 十次。问题在于所有创建的纤程都指向同一个变量 <code>i</code> ，当 <code>Fiber.yield</code>执行时，它的值是 10。</p>
+<p>解决方法是：</p>
+<pre><code class="language-crystal">i = 0
+while i &lt; 10
+  proc = -&gt;(x : Int32) do
+    spawn do
+      puts(x)
+    end
+  end
+  proc.call(i)
+  i += 1
+end
+
+Fiber.yield
+</code></pre>
+<p>现在它正常的打印了。因为我们创建了 <a href="http://crystal-lang.org/api/Proc.html">闭包</a> 来捕获 <code>i</code>，然后调用它，所以这个值被复制了，被创建的纤程得到的是原数的备份。</p>
+<p>为了避免写样板代码，标准库提供了 <code>spawn</code> 宏。它接受一个调用表达式，然后把它重写成上面的样子。使用它，我们得到了：</p>
+<pre><code class="language-crystal">i = 0
+while i &lt; 10
+  spawn puts(i)
+  i += 1
+end
+
+Fiber.yield
+</code></pre>
+<p>这在局部变量碎迭代更改时非常有用。这不会用于块参数。例如，这个程序也能正常输出：</p>
+<pre><code class="language-crystal">10.times do |i|
+  spawn do
+    puts i
+  end
+end
+
+Fiber.yield
+</code></pre>
+<h3 id="生成一个纤程等待它完成"><a class="header" href="#生成一个纤程等待它完成">生成一个纤程，等待它完成</a></h3>
+<p>为此我们可以使用管道：</p>
+<pre><code class="language-crystal">channel = Channel(Nil).new
+
+spawn do
+  puts &quot;Before send&quot;
+  channel.send(nil)
+  puts &quot;After send&quot;
+end
+
+puts &quot;Before receive&quot;
+channel.receive
+puts &quot;After receive&quot;
+</code></pre>
+<p>This prints:</p>
+<pre><code class="language-text">Before receive
+Before send
+After receive
+</code></pre>
+<p>首先程序创建了一个纤程，但不立刻执行它。当我们调用 <code>channel.receive</code>时，主纤程阻塞，这个被创建的纤程开始执行。然后 <code>channel.send(nil)</code> 被调用，继而 <code>channel.receive</code>被执行，他等待的值终于来了。然后主纤程继续执行，直到结束，随后程序退出，其他纤程来不及机会打印&quot;After send&quot;就被清理了。</p>
+<p>上例中我们使用 <code>nil</code>只是为了告诉他人纤程的结束。我们也可以用管道在纤程之间传值：</p>
+<pre><code class="language-crystal">channel = Channel(Int32).new
+
+spawn do
+  puts &quot;Before first send&quot;
+  channel.send(1)
+  puts &quot;Before second send&quot;
+  channel.send(2)
+end
+
+puts &quot;Before first receive&quot;
+value = channel.receive
+puts value # =&gt; 1
+
+puts &quot;Before second receive&quot;
+value = channel.receive
+puts value # =&gt; 2
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-text">Before first receive
+Before first send
+1
+Before second receive
+Before second send
+2
+</code></pre>
+<p>注意当程序执行一个 <code>receive</code>时，纤程阻塞，另一个纤程执行。当执行 <code>send</code>时，控制流回到等待这个值的纤程。</p>
+<p>这里我们在发送字面量，但是被创建的纤程可以用多种方式得到这个值。比如读一个文档，或是等待来自socket的消息。 当这个纤程必须等待 I/O时，其他的纤程可以趁这个机会执行，直到 I/O 完成。然后这个值终于通过管道传给了主纤程。例如：</p>
+<pre><code class="language-crystal">require &quot;socket&quot;
+
+channel = Channel(String).new
+
+spawn do
+  server = TCPServer.new(&quot;0.0.0.0&quot;, 8080)
+  socket = server.accept
+  while line = socket.gets
+    channel.send(line)
+  end
+end
+
+spawn do
+  while line = gets
+    channel.send(line)
+  end
+end
+
+3.times do
+  puts channel.receive
+end
+</code></pre>
+<p>上述程序创建了两个纤程。第一个创建了 TCPServer，等待一个连接，并且从中按行读取文本，把它们发给管道。第二个纤程从标准输入按行读取文本，主纤程从管道读取前三条消息息——而不管它从标准输入还是TCP服务器——然后程序退出 。 <code>gets</code>会阻塞纤程，告诉调度器有消息来了再启动它。</p>
+<p>类似地我们可以等待多个纤程去完成执行，然后获取它们的值：</p>
+<pre><code class="language-crystal">channel = Channel(Int32).new
+
+10.times do |i|
+  spawn do
+    channel.send(i * 2)
+  end
+end
+
+sum = 0
+10.times do
+  sum += channel.receive
+end
+puts sum # =&gt; 90
+</code></pre>
+<p>当然，你可以在创建的纤程内使用 <code>receive</code>：</p>
+<pre><code class="language-crystal">channel = Channel(Int32).new
+
+spawn do
+  puts &quot;Before send&quot;
+  channel.send(1)
+  puts &quot;After send&quot;
+end
+
+spawn do
+  puts &quot;Before receive&quot;
+  puts channel.receive
+  puts &quot;After receive&quot;
+end
+
+puts &quot;Before yield&quot;
+Fiber.yield
+puts &quot;After yield&quot;
+</code></pre>
+<p>输出:</p>
+<pre><code class="language-text">Before yield
+Before send
+Before receive
+1
+After receive
+After send
+After yield
+</code></pre>
+<p>此处 <code>channel.send</code> 先执行，但是因为目前没有纤程想要这个值，它就先挂起该纤程，等其他纤程执行。后来第二个纤程执行。它从管道中取值的时候，里面正好有一个值。于是它获得这个值，继续执行。接下来先执行第一个纤程，然后是主纤程，因为 <code>Fiber.yield</code> 把一个纤程放在执行队列的最后面。</p>
+<h3 id="缓存管道"><a class="header" href="#缓存管道">缓存管道</a></h3>
+<p>上例中我们用的是无缓存的管道：当发送值时，如果一个纤程在等待这个值，那控制流就会转到那个纤程上。</p>
+<p>通过使用带缓存的管道时，调用 <code>send</code> 不会利己跳到另外的纤程，除非缓存区已满：</p>
+<pre><code class="language-crystal"># 容量为 2 的缓存管道
+channel = Channel(Int32).new(2)
+
+spawn do
+  puts &quot;Before send 1&quot;
+  channel.send(1)
+  puts &quot;Before send 2&quot;
+  channel.send(2)
+  puts &quot;Before send 3&quot;
+  channel.send(3)
+  puts &quot;After send&quot;
+end
+
+3.times do |i|
+  puts channel.receive
+end
+</code></pre>
+<p>输出：</p>
+<pre><code>Before send 1
+Before send 2
+Before send 3
+1
+2
+After send
+3
+</code></pre>
+<p>注意前两次发送执行时，控制流没有跑到其他纤程上，然而，在第三次发送时，管道的缓存已经满了，所以控制流回到了主纤程。主纤程收到两个值之后，管道又空了，所以第三次执行<code>receive</code>时，主纤程阻塞，控制流回到上面的纤程，它发送信息，然后结束。然后主纤程又去做接下来的事情。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../guides/performance.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../guides/testing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../guides/performance.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../guides/testing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
