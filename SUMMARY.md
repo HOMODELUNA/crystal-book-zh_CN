@@ -33,6 +33,7 @@
        * [元组](syntax_and_semantics/literals/tuple.md)
        * [命名元组](syntax_and_semantics/literals/named_tuple.md)
        * [闭包](syntax_and_semantics/literals/proc.md)
+       * [命令](syntax_and_semantics/literals/command.md)
    * [赋值](syntax_and_semantics/assignment.md)
        * [多重赋值](syntax_and_semantics/multiple_assignment.md)
    * [局部变量](syntax_and_semantics/local_variables.md)
