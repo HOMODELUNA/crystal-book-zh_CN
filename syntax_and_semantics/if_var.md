@@ -54,31 +54,47 @@ if a
 end
 ```
 
-This can be circumvented by assigning the value to a new local variable:
+这个缺陷可以通过新赋值一个局部变量来绕过：
 
 ```crystal
 if a = @a
-  # here `a` can't be nil
+  # 此处 `a` 一定不是 nil
 end
 ```
 
-Another option is to use [`Object#try`](https://crystal-lang.org/api/Object.html#try%28%26block%29-instance-method) found in the standard library which only executes the block if the value is not `nil`:
+另一个方法是使用标准库的 [`Object#try`](https://crystal-lang.org/api/Object.html#try%28%26block%29-instance-method) ，仅当该元素不是 `nil`时才执行后面的块：
 
 ```crystal
 @a.try do |a|
-  # here `a` can't be nil
+  # 此处 `a` 一定不是 nil
 end
 ```
 
-## Method calls
+## 方法调用
 
-That logic also doesn't work with proc and method calls, including getters and properties, because nilable (or, more generally, union-typed) procs and methods aren't guaranteed to return the same more-specific type on two successive calls.
+这个逻辑同样不适用于过程和方法调用，比如读取方法(getters)和属性(properties)，因为一个可空（广泛地说，返回联合体的方法）的方法并不保证在接连的调用时返回同样的精确类型。
 
 ```crystal
-if method # first call to a method that can return Int32 or Nil
-          # here we know that the first call did not return Nil
-  method  # second call can still return Int32 or Nil
+if method # 这个方法的第一次调用返回 Int32 或 Nil
+          # 好，我们知道第一次调用返回的不是 Nil了
+  method  # 第二次调用仍返回 Int32 或 Nil
 end
 ```
 
-The techniques described above for instance variables will also work for proc and method calls.
+
+> 译注:想想这个方法
+> ```crystal 
+> class Flipper
+>   def flip
+>     if @v
+>       v = nil
+>     else
+>       @v = 1
+>     end
+>     v
+>   end
+> end
+> ``` 
+> 这个方法会交替返回 1 和 nil，没法保证两次方法调用返回的是同一个值
+
+同样的迂回手法可以用于保存某次调用的值，让它在if的子句中不为空。
