@@ -38,29 +38,3 @@ $ mdbook serve
 2022-10-07 22:06:28 [INFO] (warp::server): Server::run; addr=[::1]:3000   
 2022-10-07 22:06:28 [INFO] (warp::server): listening on http://[::1]:3000 
 ```
-#### gitbook
-```
-$ git clone https://github.com/chinazhangchao/crystal-book-zh_CN.git
-$ cd crystal-book
-$ npm install -g gitbook-cli@2.3.0
-$ gitbook install
-$ gitbook serve
-Live reload server started on port: 35729
-Press CTRL+C to quit ...
-
-info: 8 plugins are installed
-info: loading plugin "ga"... OK
-...
-Starting server ...
-Serving book on http://localhost:4000
-
-```
-或者通过docker方式：
-```
-$ docker-compose up
-...
-gitbook_1  | Starting server ...
-gitbook_1  | Serving book on http://localhost:4000
-gitbook_1  | Restart after change in file node_modules/.bin
-...
-```
