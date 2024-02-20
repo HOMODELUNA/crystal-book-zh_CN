@@ -2,6 +2,6 @@
 authors = ["Crystal 翻译组"]
 language = "zn_cn"
 multilingual = false
-src = "./"
+src = "./src"
 title = "Crystal 语言参考"
 
